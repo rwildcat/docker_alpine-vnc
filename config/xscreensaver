@@ -1,0 +1,4 @@
+timeout:    0:05:00
+lock:       True
+lockTimeout:	0:05:00
+mode:       blank
