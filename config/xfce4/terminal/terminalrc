@@ -2,4 +2,4 @@
 FontName=Monospace 10
 MiscMenubarDefault=FALSE
 BackgroundMode=TERMINAL_BACKGROUND_TRANSPARENT
-BackgroundDarkness=0.65
+BackgroundDarkness=0.75

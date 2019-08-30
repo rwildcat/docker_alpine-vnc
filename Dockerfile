@@ -18,31 +18,25 @@ ENV TZ_CITY Mexico_City
 RUN apk update \
 	&& apk upgrade \
 	#
+	# main packages
 	&& apk add setup-box sudo supervisor openssh-server openssh vim nano \
-	&& apk add xvfb x11vnc 
-
-#  do some xfce4 packages require manual installation? -- ?? slim, xfce4
-RUN apk add xfce4-xkb-plugin xscreensaver leafpad 
-
-# set up timezone
-RUN apk add tzdata \
+	&& apk add xvfb x11vnc \
+	#
+	# xfce4 and gui goodies
+	xfce4-xkb-plugin xscreensaver leafpad \
+	#
+	# set up timezone
+	tzdata \
 	&& cp /usr/share/zoneinfo/$TZ_AREA/$TZ_CITY /etc/localtime \
-	&& echo "$TZ_AREA/$TZ_CITY" >  /etc/timezone \
-	&& apk del tzdata
+	&& echo "$TZ_AREA/$TZ_CITY" >  /etc/timezone 
 
-# patch setup-box to not ask for new user's passwd
-# and setup a desktop + xfce4 workstation
+# patch setup-box to not asking for new user's passwd
+# run setup-box to setup a desktop + xfce4 workstation
 RUN sed -i  's/adduser -h/adduser -D -h/' /sbin/setup-box \
 	&& echo Y | setup-box -v -d xfce -u alpine
 
-# del extra packages
-# RUN apk del \
-# 	&& xf86-video-ast xf86-video-ati xf86-video-chips \
-# 	&& xf86-video-i128 xf86-video-i740 xf86-video-nouveau xf86-video-openchrome \
-# 	&& xf86-video-qxl xf86-video-r128 xf86-video-rendition xf86-video-s3 xf86-video-s3virge \
-# 	&& xf86-video-savage xf86-video-siliconmotion xf86-video-sis xf86-video-sunleo xf86-video-tdfx \
-# 	&& xf86-video-vmware xf86-video-xgixp
-
+# cleanup
+# -- does not work, increases image size instead !
 
 # change root passwd and add users and groups 
 # (user alpine alredy added by setup-box)
@@ -64,6 +58,8 @@ ADD etc /etc
 # read by ash per ENV=~/.ashrc (see above)
 RUN echo "alias ll='ls -l'" > /home/alpine/.ashrc \
 	&& echo "alias lla='ls -al'" >> /home/alpine/.ashrc \
+	&& echo "alias llh='ls -hl'" >> /home/alpine/.ashrc \
+	#
 	# ash personal config file for login shell mode
 	&& cp /home/alpine/.ashrc /home/alpine/.profile 
 
@@ -73,12 +69,13 @@ ADD config/xscreensaver /home/alpine/.xscreensaver
 ADD config/wallpapers/* /usr/share/backgrounds/xfce/
 
 # set custom wallpaper :-)
-ADD config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml  /home/alpine/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
+ADD config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml  \
+	/home/alpine/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
 
 # RUN chown -R alpine:alpine /home/alpine/.config /home/alpine/.xscreensaver
 RUN chown -R alpine:alpine /home/alpine/
 
-# ports
+# exposed ports
 EXPOSE 22 5900
 
 # default command
