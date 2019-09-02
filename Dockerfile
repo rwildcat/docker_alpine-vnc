@@ -1,4 +1,4 @@
-# alpine-vnc - a basic, graphical alpine workstation
+# alpine-vnc - A basic, graphical alpine workstation
 # includes xfce, vnc, ssh
 # last update: aug/26/2019
 
@@ -30,13 +30,12 @@ RUN apk update \
 	&& cp /usr/share/zoneinfo/$TZ_AREA/$TZ_CITY /etc/localtime \
 	&& echo "$TZ_AREA/$TZ_CITY" >  /etc/timezone 
 
-# patch setup-box to not asking for new user's passwd
 # run setup-box to setup a desktop + xfce4 workstation
+# but first, patch setup-box to not asking for new user's passwd
 RUN sed -i  's/adduser -h/adduser -D -h/' /sbin/setup-box \
 	&& echo Y | setup-box -v -d xfce -u alpine
 
-# cleanup
-# -- does not work, increases image size instead !
+# cleanup -- does not work, increases image size instead !
 
 # change root passwd and add users and groups 
 # (user alpine alredy added by setup-box)
@@ -59,6 +58,7 @@ ADD etc /etc
 RUN echo "alias ll='ls -l'" > /home/alpine/.ashrc \
 	&& echo "alias lla='ls -al'" >> /home/alpine/.ashrc \
 	&& echo "alias llh='ls -hl'" >> /home/alpine/.ashrc \
+	&& echo "alias hh=history" >> /home/alpine/.ashrc \
 	#
 	# ash personal config file for login shell mode
 	&& cp /home/alpine/.ashrc /home/alpine/.profile 

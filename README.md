@@ -4,7 +4,7 @@ A lightweight (492 MB) personal Linux workstation based on [Alpine](https://alpi
 
 *Ramon Solano (<ramon.solano at gmail.com>)*
 
-**Last update**: Aug/28/2019     
+**Last update**: Sep/2/2019     
 **Base image**: Alpine:3.10 (3.10.2)
 
 ## Main packages
@@ -71,7 +71,7 @@ where:
 
 ### Examples
 
-* Run the image, remove container from memory once finished the container (`--rm`); map VNC port to 5900 (`-p 5900:5900`) and SSH port to 2222 (`-p 2222:22`):
+* Run the image, remove container from memory once finished the container (`--rm`); map local VNC port `5900`  to guest's VNC port 5900 (`-p 5900:5900`), and local port `2222` to guest's `22`  (`-p 2222:22`) for SSH access:
 
 	```sh
 	$ docker run --rm -p 5900:5900 -p 2222:22 rsolano/alpine-vnc
@@ -83,10 +83,10 @@ where:
 	$ docker run --rm -p 5900:5900 -p 2222:22 -v $HOME/workspace:/home/alpine/workspace rsolano/alpine-vnc
 	```
 
-* Run image, detach to background (`--detach`, or just `-d`) and keep running in memory (control returns to user immediately); map VNC to 5900 and SSH to 2222; change screen resolution to 1200x700x24 (`XRES=...`)
+* Run image, detach to background (`--detach`, or just `-d`) and keep running in background (control returns to user immediately); map VNC to 5900 and SSH to 2222; change screen resolution to 1200x700x24 (`XRES=1280x1024x24`)
 
 	```sh
-	$ docker run --detach -p 5900:5900 -p 2222:22 -e XRES=1200x700x24 rsolano/alpine-vnc
+	$ docker run --detach -p 5900:5900 -p 2222:22 -e XRES=1280x10240x24 rsolano/alpine-vnc
 	```
 
 #### To run a ***secured*** VNC session
