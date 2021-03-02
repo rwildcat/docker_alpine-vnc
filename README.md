@@ -1,11 +1,11 @@
 # Alpine VNC
 
-A lightweight (492 MB) personal Linux workstation based on [Alpine](https://alpinelinux.org). Provides VNC and SSH services.
+A lightweight (480 MB) personal Linux workstation based on [Alpine](https://alpinelinux.org). Provides VNC and SSH services.
 
 *Ramon Solano (<ramon.solano at gmail.com>)*
 
-**Last update**: Sep/2/2019     
-**Base image**: Alpine:3.10 (3.10.2)
+**Last update**: Mar/2/2021    
+**Base image**: Alpine:3.12 (3.12.4)
 
 ## Main packages
 
@@ -56,16 +56,18 @@ $ docker build -t rsolano/alpine-vnc .
 To run the container, you can just issue the `$ docker run `   command. The image will be first *pulled* if it required:
 
 ```sh
-$ docker run [-it] [--rm] [--detach] [-h HOSTNAME] -p LVNCPORT:5900 -p LSSHPORT:22 [-e XRES=1280x800x24] [-v LDIR:DIR] rsolano/alpine-vnc
+$ docker run [-it] [--rm] [--detach] [-h HOSTNAME] -p LVNCPORT:5900 -p LSSHPORT:22 [-e XRES=1280x800x24] [-e TZ=Etc/UTC] [-v LDIR:DIR] rsolano/alpine-vnc
 ```
 
 where:
 
-* `LVNCPORT`: Localhost VNC port to connect to (e.g. 5900 for display :0).
+* `LVNCPORT`: Localhost VNC port to connect to (e.g. 5900 for display :0)
 
-* `LSSHPORT`: local SSH port to connect to (e.g. 2222, as *well known ports* (those below 1024) may be reserved by your system).
+* `LSSHPORT`: local SSH port to connect to (e.g. 2222, as *well known ports* (those below 1024) may be reserved by your system)
 
-* `XRES`: Screen resolution and color depth.
+* `XRES`: Screen resolution and color depth (e.g 1280x800x24)
+
+* `TZ`: Area/City (e.g. America/Los_Angeles, America/Mexico_City, etc.)
 
 * `LDIR:DIR`: Local directory to mount on container. `LDIR` is the local directory to export; `DIR` is the target dir on the container.  Both sholud be specified as absolute paths. For example: `-v $HOME/worskpace:/home/alpine/workspace`.
 
