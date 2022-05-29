@@ -1,11 +1,11 @@
 # Alpine VNC
 
-A lightweight (480 MB) personal Linux workstation based on [Alpine](https://alpinelinux.org). Provides VNC and SSH services.
+A lightweight (447 MB) personal Linux workstation based on [Alpine](https://alpinelinux.org). Provides VNC and SSH services.
 
 *Ramon Solano (<ramon.solano at gmail.com>)*
 
-**Last update**: Mar/2/2021    
-**Base image**: Alpine:3.12 (3.12.4)
+**Last update**: May/29/2022    
+**Base image**: Alpine:3.16
 
 ## Main packages
 
@@ -15,10 +15,12 @@ A lightweight (480 MB) personal Linux workstation based on [Alpine](https://alpi
 
 ## Users
 
-User/pwd:
+| User   | Password |
+| ------ | -------- |
+| root   | alpine   |
+| alpine | alpine   |
 
-* root / alpine
-* alpine / alpine (sudoer)
+
 
 ## To run the image
 
@@ -30,13 +32,19 @@ User/pwd:
 
 2. Run the container (the image will be *pulled* first if not previously downloaded).
 
-	For example, to run an ephemeral VNC session:
+	* For example, to run an *ephemeral* VNC session:
 
-	```sh
-   $ docker run --rm -p 5900:5900 rsolano/alpine-vnc
-   ```
-
-
+      ```sh
+       $ docker run --rm -p 5900:5900 rsolano/alpine-vnc
+      ```
+   
+   * To run an *ephemeral* VNC + SSH session:	
+   
+     ```sh
+      $ docker run --rm -p 5900:5900 -p 2222:22 rsolano/alpine-vnc
+     ```
+   
+     
 
 ## To build the image from the `Dockerfile` (optional)
 
@@ -155,7 +163,7 @@ Once VNC is tunneled through SSH, you can connect your VNC viewer to you specifi
 		```
 		
  ## Container usage
- 
+
 1. First run the container as described above.
 
 2. Connect to the running host (`localhost` if running in your computer):
@@ -163,7 +171,7 @@ Once VNC is tunneled through SSH, you can connect your VNC viewer to you specifi
 	* Using VNC: 
 
 		Connect to specified LVNCPORT (e.g. `localhost:0` or `localhost:5900`)
-		 
+		
 	* Using SSH: 
 
 		Connect to specified host (e.g. `localhost`) and SSHPORT (e.g. 2222) 
